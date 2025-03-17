@@ -1,0 +1,12 @@
+@mixin default_container($flex-direction: row, $row_gap, $column_gap)
+  flex-direction: $flex-direction
+  row-gap: $row_gap
+  column-gap: $column_gap
+  display: flex
+
+.login_page_container
+  @include default_container(column, 10px, 0px)
+  padding: 20px
+  height: 100%
+  width: calc(100% - 40px)
+  background: #181A19
