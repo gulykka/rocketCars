@@ -1,4 +1,5 @@
 import React from 'react';
+import './components.sass'
 
 const Footer = () => {
     return (

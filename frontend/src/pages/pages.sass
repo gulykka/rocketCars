@@ -6,7 +6,18 @@
 
 .login_page_container
   @include default_container(column, 10px, 0px)
-  padding: 20px
+  padding: 30px
   height: 100%
-  width: calc(100% - 40px)
-  background: #181A19
+  color: white
+  width: calc(100% - 60px)
+  z-index: 2
+
+.main_page_container
+  @include default_container(row, 10px, 52px)
+  z-index: 2
+  padding: 30px
+  color: white
+  width: calc(100% - 60px)
+@media (max-width: 1050px)
+  .main_page_container
+    @include default_container(column, 10px, 0px)

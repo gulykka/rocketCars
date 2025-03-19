@@ -1,0 +1,150 @@
+@mixin default_container($flex-direction: row, $row_gap, $column_gap)
+  flex-direction: $flex-direction
+  row-gap: $row_gap
+  column-gap: $column_gap
+  display: flex
+
+@import "~slick-carousel/slick/slick.css"
+@import "~slick-carousel/slick/slick-theme.css"
+
+.status_cards_container
+  @include default_container(column, 10px, 0px)
+  z-index: 2
+  flex-grow: 1
+
+
+.status_card_container
+  @include default_container(row, 0px, 10px)
+  justify-content: space-between
+
+.information_container
+  @include default_container(column, 10px, 0px)
+
+
+.container_grey
+  background: #222423
+  border-radius: 16px
+  flex-grow: 1
+  padding: 15px
+  @include default_container(row, 0px, 10px)
+  justify-content: space-between
+
+.image_container
+  @include default_container(row, 0px, 0px)
+  justify-content: center
+  align-items: center
+  padding: 15px
+  width: 40px
+  background: #222423
+  border-radius: 16px
+
+.date_container
+  border-radius: 8px
+  align-self: flex-start
+  padding: 5px 10px
+  background: #434645
+  color: rgba(255, 255, 255, 0.25)
+
+.current_date
+  background: linear-gradient(to right, #F08319, #E51B2F)
+  color: white
+
+.status_image
+  width: 23px
+
+.car_information_container
+  @include default_container(column, 20px, 0px)
+  align-items: center
+  width: 579px
+  @media(max-width: 1050px)
+    width: auto
+
+
+.information_car_container
+  @include default_container(column, 10px, 0px)
+  background: #222423
+  border-radius: 15px
+  width: calc(100% - 40px)
+  padding: 20px
+.VIN
+  font-size: 25px
+  font-weight: bolder
+  background: linear-gradient(to right, #F08319, #E51B2F)
+  border-radius: 8px
+  padding: 2px 7px
+.name_car
+  font-size: 40px
+  font-weight: bold
+.VIN_info
+  font-size: 25px
+  font-weight: bolder
+@media (max-width: 615px)
+  .name_car
+    font-size: 20px
+  .VIN_info
+    font-size: 18px
+@media (max-width: 1360px)
+  .current_date, .date_container
+    align-self: center
+.photos_car_container
+  @include default_container(column, 30px, 0px)
+  padding: 22px
+  background: #222423
+  border-radius: 15px
+.photo_car
+  width: 535px
+  border-radius: 15px
+.overlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: rgba(0, 0, 0, 0.8)
+  z-index: 1000
+
+$overlay-bg: rgba(0, 0, 0, 0.5)
+$container-bg: white
+$border-radius: 10px
+$z-index: 1001
+
+.shadow_window_img_container
+  position: fixed
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  width: 80%
+  height: 80%
+  //max-width: 600px
+  padding: 10px
+  border-radius: 10px
+  z-index: 1001
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 10px
+  justify-content: center
+.slider
+  width: 65%
+
+@media(max-width: 1000px)
+  .slider
+    width: 85%
+.slick-dots li button
+  display: block
+  width: 15px
+  height: 15px
+  border-radius: 50%
+  background: #D9D9D9
+
+.slick-dots li.slick-active button
+  background: linear-gradient(to right, #F08319, #E51B2F)
+  opacity: 1
+
+button::before
+  display: none
+
+.slick-prev
+  left: -80px
+.slick-next
+  right: -50px
