@@ -2,11 +2,12 @@ import React, {FC, useEffect} from 'react';
 import PhotoSlider from "./PhotoSlider";
 
 interface ShadowWindowProps {
-    onClose: () => void;
-    imageSrc: string[];
+    onClose: () => void
+    imageSrc: string[]
+    selectedIndex: number
 }
 
-const ShadowWindow: FC<ShadowWindowProps> = ({ imageSrc, onClose }) => {
+const ShadowWindow: FC<ShadowWindowProps> = ({ imageSrc, onClose, selectedIndex }) => {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -24,7 +25,9 @@ const ShadowWindow: FC<ShadowWindowProps> = ({ imageSrc, onClose }) => {
             <div className="overlay" onClick={onClose} />
             <div className="shadow_window_img_container">
                 {imageSrc.length > 0 ? (
-                    <PhotoSlider images={imageSrc} />
+                    <PhotoSlider
+                        selectedIndex={selectedIndex}
+                        images={imageSrc} />
                 ) : (
                     <p>No images available</p>
                 )}

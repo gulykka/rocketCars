@@ -1,37 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9ba5c597-a90c-47fc-872e-d4da3de156f8" name="Changes" comment="create Login Page">
-      <change afterPath="$PROJECT_DIR$/frontend/public/arrow-left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/arrow-right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/copplete_status_img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/current_status_img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/home_button.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/photo_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/photo_2.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/photo_3.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/signout_button.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/CarCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/PhotoSlider.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ShadowWindow.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/StatusCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/StatusCardsList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/login.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/main.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/interfaces.ts" afterDir="false" />
+    <list default="true" id="9ba5c597-a90c-47fc-872e-d4da3de156f8" name="Changes" comment="create Main Page">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/router/AppRouter.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LogIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LogIn.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CarCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CarCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/PhotoSlider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/PhotoSlider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ShadowWindow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ShadowWindow.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/components.sass" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/components.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/MainPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MainPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/main.sass" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/pages.sass" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/pages.sass" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +43,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Admin/WebstormProjects/rocket_cars/frontend/public",
+    "last_opened_file_path": "C:/Users/Admin/WebstormProjects/admin_app",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -88,7 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1742181264197</updated>
       <workItem from="1742181269778" duration="603000" />
-      <workItem from="1742181878043" duration="32819000" />
+      <workItem from="1742181878043" duration="43588000" />
     </task>
     <task id="LOCAL-00001" summary="create .gitignore">
       <created>1742181620218</created>
@@ -104,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1742203379641</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="create Main Page">
+      <created>1742352236457</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1742352236457</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,6 +111,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="create .gitignore" />
     <MESSAGE value="create Login Page" />
-    <option name="LAST_COMMIT_MESSAGE" value="create Login Page" />
+    <MESSAGE value="create Main Page" />
+    <option name="LAST_COMMIT_MESSAGE" value="create Main Page" />
   </component>
 </project>

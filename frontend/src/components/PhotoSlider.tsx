@@ -2,7 +2,8 @@ import React from 'react';
 import Slider from 'react-slick';
 
 interface PhotoSliderProps {
-    images: string[];
+    images: string[]
+    selectedIndex: number
 }
 
 // Определите типы для пропсов стрелок
@@ -24,7 +25,7 @@ const CustomNextArrow: React.FC<ArrowProps> = (props) => {
     );
 };
 
-const PhotoSlider: React.FC<PhotoSliderProps> = ({ images }) => {
+const PhotoSlider: React.FC<PhotoSliderProps> = ({ images, selectedIndex }) => {
     const settings = {
         dots: true,
         infinite: true,
@@ -32,6 +33,7 @@ const PhotoSlider: React.FC<PhotoSliderProps> = ({ images }) => {
         slidesToScroll: 1,
         autoplay: false,
         arrows: true,
+        initialSlide: selectedIndex,
         prevArrow: <CustomPrevArrow />,
         nextArrow: <CustomNextArrow />,
     };

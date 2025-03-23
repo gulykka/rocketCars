@@ -8,7 +8,7 @@ interface CarCardProps {
 }
 
 const CarCard:FC<CarCardProps> = ({car}) => {
-
+    const [chosenPhoto, setChosenPhoto] = useState(0)
     const [visibleImageWindow, setVisibleImageWindow] = useState(false)
 
     return (
@@ -22,9 +22,12 @@ const CarCard:FC<CarCardProps> = ({car}) => {
                 <span className={'VIN_info'} >Год выпуска {car.year_release}</span>
             </div>
             <div className={'photos_car_container'}>
-                {car.photos.map((img) =>
+                {car.photos.map((img, index) =>
                 <img
-                    onClick={() => setVisibleImageWindow(true)}
+                    onClick={() => {
+                        setVisibleImageWindow(true)
+                        setChosenPhoto(index)
+                    }}
                     className={'photo_car'}
                     src={img}
                     alt={''}/>
@@ -32,6 +35,7 @@ const CarCard:FC<CarCardProps> = ({car}) => {
             </div>
             {visibleImageWindow && (
                 <ShadowWindow
+                    selectedIndex={chosenPhoto}
                     imageSrc={car.photos}
                     onClose={() => setVisibleImageWindow(false)}/>
             )}
