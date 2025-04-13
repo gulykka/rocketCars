@@ -6,9 +6,8 @@ from dotenv import load_dotenv
 import json
 import os
 app = Flask(__name__)
-app.secret_key = 'rocketCar'  # Замените на реальный секретный ключ
+app.secret_key = 'rocketCar'
 load_dotenv()
-# Конфигурация Bitrix24
 WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
 
 ENTITY_TYPE_ID = '135'
@@ -16,17 +15,15 @@ bx = Bitrix(WEBHOOK_URL)
 
 
 def load_stages_from_json(file_path='resp.json'):
-    """Загружает стадии из JSON-файла"""
     with open(file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 
 def get_tracking_info(current_stage_id, all_stages):
-    """Формирует информацию для трекера"""
     stage_groups = {
-        '1. На оплате/на заводе': ['DT135_12:NEW', 'DT135_12:PREPARATION'],
-        '2. На стоянке в Китае': ['DT135_12:UC_G2QLMW'],
-        '3. Доставка в РФ': [],
+        '1. На оплате/на заводе': ['DT135_12:NEW'],
+        '2. На стоянке в Китае': ['DT135_12:PREPARATION'],
+        '3. Доставка в РФ': ['DT135_12:UC_G2QLMW'],
         '4. На СВХ': ['DT135_12:CLIENT', 'DT135_12:UC_QFS3CA',
                       'DT135_12:UC_UST2QE', 'DT135_12:UC_37UMS1'],
         '5. На стоянке': ['DT135_12:UC_LHM1NV', 'DT135_12:UC_4WLJGM']

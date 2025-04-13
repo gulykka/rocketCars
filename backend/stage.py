@@ -1,40 +1,35 @@
+# 1. Получаем элемент смарт-процесса
 from fast_bitrix24 import Bitrix
-from pprint import pprint
+import json
 
+# Настройки подключения
 WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
+ENTITY_TYPE_ID = '135'  # ID смарт-процесса
+
+# Инициализация клиента Bitrix24
 bx = Bitrix(WEBHOOK_URL)
+smart_process_result = bx.get_all('crm.item.list', {
+    'entityTypeId': '135',  # ID смарт-процесса
+    'filter': {
+        'ufCrm8Vin': '1234567890'  # Пример фильтра по VIN
+    },
+    'select': ['*', 'ufCrm8FotoAvto']  # Выбираем все поля + фото
+})
 
+# 2. Получаем stageId из результата
+stage_id = smart_process_result[0]['stageId']
 
-def get_all_stages(entity_type_id):
-    """
-    Получает ВСЕ стадии смарт-процесса, включая все воронки
-    """
-    try:
-        # 1. Сначала получаем все категории (воронки)
-        categories = bx.get_all(
-            'crm.category.list',
-            params={'entityTypeId': entity_type_id}
-        )
+# 3. Получаем информацию о стадии
+statuses = bx.get_all('crm.status.list', {
+    'filter': {
+        'ENTITY_ID': 'DYNAMIC_135_STAGE_12'  # Формат: DYNAMIC_<ID смарт-процесса>_STAGE_<ID воронки>
+    }
+})
+print(statuses)
+stage_info = next((status for status in statuses if status['STATUS_ID'] == stage_id), None)
 
-        # 2. Для каждой категории получаем стадии
-        all_stages = []
-        for category in categories:
-            stages = bx.get_all(
-                'crm.item.stage.list',
-                params={
-                    'entityTypeId': entity_type_id,
-                    'categoryId': category['id']
-                }
-            )
-            all_stages.extend(stages)
+if stage_info:
+    print(f"Текущая стадия: {stage_info['NAME']} (Цвет: {stage_info['COLOR']})")
+else:
+    print(f"Стадия с ID {stage_id} не найдена.")
 
-        return all_stages
-
-    except Exception as e:
-        print(f"Ошибка: {e}")
-        return []
-
-
-# Пример использования
-all_stages = get_all_stages('135')  # ID вашего смарт-процесса
-pprint(all_stages)
