@@ -17,6 +17,7 @@
 .status_card_container
   @include default_container(row, 0px, 10px)
   justify-content: space-between
+  align-items: stretch
 
 .information_container
   @include default_container(column, 10px, 0px)
@@ -27,18 +28,29 @@
   border-radius: 16px
   flex-grow: 1
   padding: 15px
+  height: 115px
+  width: 100%
   @include default_container(row, 0px, 10px)
   justify-content: space-between
 
 .image_container
-  @include default_container(row, 0px, 0px)
+  @include default_container(row, 100px, 0px)
   justify-content: center
   align-items: center
   padding: 15px
   width: 40px
+  height: 115px
   background: #222423
   border-radius: 16px
-
+@media (max-width: 700px)
+  .container_grey, .image_container
+    height: 150px
+@media (max-width: 500px)
+  .container_grey, .image_container
+    height: 200px
+@media (max-width: 390px)
+  .container_grey, .image_container
+    height: 240px
 .date_container
   border-radius: 8px
   align-self: flex-start

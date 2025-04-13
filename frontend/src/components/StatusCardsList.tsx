@@ -14,6 +14,7 @@ const StatusCardsList = () => {
         <div className={'status_cards_container'}>
             {statusesName?.reverse().map((status, index) =>
                 <StatusCard
+                    description={statuses ? statuses[status].description : ''}
                     key={index}
                     index={index}
                     statusName={status}

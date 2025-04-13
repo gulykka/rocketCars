@@ -27,6 +27,7 @@ export const fetchGetCar = createAsyncThunk(
             });
 
             const data = await response.json();
+            console.log(data)
             if (data.status_code !== 200) {
                 return thunkAPI.rejectWithValue(data.message);
             }

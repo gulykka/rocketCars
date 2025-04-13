@@ -20,12 +20,12 @@ const CarCard: FC = () => {
     return (
         <div className={'car_information_container'}>
             <div className={'information_car_container'}>
-                <span className={'name_car'}>{car?.car_make}</span>
+                <span className={'name_car'}>{car?.car_make} {car?.model}</span>
                 <div>
                     <span className={'VIN'}>VIN</span>
                     <span className={'VIN_info'}> {car?.vin}</span>
                 </div>
-                <span className={'VIN_info'}>Год выпуска {car?.car_release_date}</span>
+                <span className={'VIN_info'}>Год выпуска {car?.car_release_date.slice(0, 4)}</span>
             </div>
             <div className={'photos_car_container'}>
                 {car?.photo?.length > 0 ? (

@@ -35,6 +35,7 @@ export interface TrackingStage {
 export interface TrackingGroup {
   completed: boolean;
   current: boolean;
+  description: string;
   stages: TrackingStage[];
 }
 
