@@ -1,8 +1,9 @@
 import React from 'react';
 import Slider from 'react-slick';
+import {CarPhoto} from "../store/types/carTypes";
 
 interface PhotoSliderProps {
-    images: string[]
+    images: CarPhoto[]
     selectedIndex: number
 }
 
@@ -42,7 +43,7 @@ const PhotoSlider: React.FC<PhotoSliderProps> = ({ images, selectedIndex }) => {
         <Slider {...settings} className={'slider'}>
             {images.map((image, index) => (
                 <div key={index}>
-                    <img src={image} alt={`Slide ${index}`} style={{ width: '100%', height: 'auto' }} />
+                    <img src={image.urlMachine} alt={`Slide ${index}`} style={{ width: '100%', height: 'auto' }} />
                 </div>
             ))}
         </Slider>

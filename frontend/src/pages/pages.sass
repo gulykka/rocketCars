@@ -4,13 +4,21 @@
   column-gap: $column_gap
   display: flex
 
-.login_page_container
+.login_page_container, .not_found_page_container
   @include default_container(column, 10px, 0px)
   padding: 30px
   height: 100%
   color: white
   width: calc(100% - 60px)
   z-index: 2
+.not_found_page_container
+  align-items: center
+.loading_page_container
+  @include default_container(column, 50px, 0px)
+  justify-content: center
+  align-items: center
+  padding: 30px
+  height: 100%
 
 .main_page_container
   display: grid
@@ -21,6 +29,7 @@
   padding: 0px 100px
   color: white
   width: calc(100% - 200px)
+
 @media (max-width: 1100px)
   .main_page_container
     padding: 0px 50px
@@ -28,4 +37,22 @@
     grid-template-areas: 'cards' 'car'
     justify-content: center
 
+.progress_line
+  background: linear-gradient(to right, #F08319, #E51B2F)
+  color: transparent
+  height: 8px
 
+.progress
+  background: linear-gradient(to right, #F08319, #E51B2F)
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+
+.loading_bar
+  width: 300px
+  @include default_container(row, 10px, 10px)
+  align-items: center
+.home-link
+  background: linear-gradient(to right, #F08319, #E51B2F)
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  //text-decoration: underline linear-gradient(to right, #F08319, #E51B2F)

@@ -1,9 +1,10 @@
 import React, {FC, useEffect} from 'react';
 import PhotoSlider from "./PhotoSlider";
+import {CarPhoto} from "../store/types/carTypes";
 
 interface ShadowWindowProps {
     onClose: () => void
-    imageSrc: string[]
+    imageSrc: CarPhoto[]
     selectedIndex: number
 }
 

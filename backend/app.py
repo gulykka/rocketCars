@@ -9,7 +9,8 @@ app = Flask(__name__)
 app.secret_key = 'rocketCar'  # Замените на реальный секретный ключ
 load_dotenv()
 # Конфигурация Bitrix24
-WEBHOOK_URL = os.environ.get('WEBHOOK')
+WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
+
 ENTITY_TYPE_ID = '135'
 bx = Bitrix(WEBHOOK_URL)
 

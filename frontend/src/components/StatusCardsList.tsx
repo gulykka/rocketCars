@@ -1,22 +1,25 @@
 import React, {FC} from 'react';
-import {IStatus} from "../interfaces";
 import StatusCard from "./StatusCard";
 import './main.sass'
+import {useAppSelector} from "../hooks/redux-hooks";
+import {TrackingGroup} from "../store/types/carTypes";
 
-interface StatusCardsListProps {
-    statuses: IStatus[]
-}
 
-const StatusCardsList:FC<StatusCardsListProps> = ({statuses}) => {
+const StatusCardsList = () => {
+
+    const statuses = useAppSelector(state => state.car.data?.tracking_info)
+    const statusesName = statuses ? Object.keys(statuses) : null
+
     return (
         <div className={'status_cards_container'}>
-            {statuses.map((status) => <StatusCard
-                index={status.index}
-                statusName={status.statusName}
-                information={status.information}
-                date={status.date}
-                is_active={status.is_active} />
-                )}
+            {statusesName?.reverse().map((status, index) =>
+                <StatusCard
+                    key={index}
+                    index={index}
+                    statusName={status}
+                    is_active={statuses ? statuses[status].completed : false}/>
+            )}
+
         </div>
     );
 };

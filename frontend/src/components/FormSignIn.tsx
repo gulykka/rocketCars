@@ -1,46 +1,33 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
+import { fetchGetCar } from "../store/slices/carSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
+import { useNavigate } from "react-router-dom";
 
 const FormSignIn = () => {
     const [visibleName, setVisibleName] = useState(false);
     const [name, setName] = useState('');
     const [visibleVIN, setVisibleVIN] = useState(false);
     const [VIN, setVIN] = useState('');
-    const [carData, setCarData] = useState<any>(null);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch();
+    const errorGet = useAppSelector(state => state.car.error);
+    const navigation = useNavigate();
 
     const fetchData = async () => {
         if (!name || !VIN) {
             setError('Пожалуйста, заполните все поля');
             return;
         }
-
-        setLoading(true);
+        // setLoading(true);
         setError(null);
 
         try {
-            const response = await fetch(`/api/${encodeURIComponent(name)}/${encodeURIComponent(VIN)}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`Ошибка HTTP: ${response.status}`);
-            }
-
-            const data = await response.json();
-            setCarData(data);
-//             dispatch(login())
-            console.log(data)
-        } catch (err: any) {
-            setError(err.message || 'Произошла ошибка при загрузке данных');
-            console.error('Ошибка запроса:', err);
+            await dispatch(fetchGetCar({ name, VIN })).unwrap();
+            navigation('/main');
+        } catch {
+            setError(errorGet);
         } finally {
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
@@ -55,7 +42,7 @@ const FormSignIn = () => {
                     onFocus={() => setVisibleName(true)}
                     onBlur={() => setVisibleName(false)}
                     placeholder=" "
-                    disabled={loading}
+                    // disabled={loading}
                 />
                 <label className="placeholder" htmlFor="myInput">Введите вашу фамилию</label>
                 {((visibleName) || (name && !visibleName)) && <label className={'background'}>0</label>}
@@ -69,28 +56,20 @@ const FormSignIn = () => {
                     value={VIN}
                     onChange={(event) => setVIN(event.target.value)}
                     placeholder=" "
-                    disabled={loading}
+                    // disabled={loading}
                 />
                 <label className="placeholder" htmlFor="mySecondInput">Введите VIN</label>
                 {((visibleVIN) || (VIN && !visibleVIN)) && <label className={'background_VIN'}>0</label>}
             </div>
 
-            {error && <div className="error-message">{error}</div>}
-
+            {(error || errorGet) && <div className="error-message">{error || errorGet}</div>}
             <button
                 onClick={fetchData}
                 className={'button_signin'}
-                disabled={loading}
+                // disabled={loading}
             >
-                {loading ? 'Загрузка...' : 'Проверить'}
+                {'Проверить'}
             </button>
-
-            {carData && (
-                <div className="car-data-container">
-                    <h3>Данные автомобиля:</h3>
-                    <pre>{JSON.stringify(carData, null, 2)}</pre>
-                </div>
-            )}
         </div>
     );
 };
