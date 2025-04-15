@@ -2,7 +2,7 @@ import json
 from fast_bitrix24 import Bitrix
 from pprint import pprint
 
-WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
+WEBHOOK_URL = ""
 ENTITY_TYPE_ID = '135'
 
 bx = Bitrix(WEBHOOK_URL)
