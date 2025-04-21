@@ -5,10 +5,11 @@ export interface IStatus {
     statusName: string
     is_active: boolean
     description: string
+    date: string
 }
 
 
-const StatusCard: FC<IStatus> = ({index, statusName, is_active, description}) => {
+const StatusCard: FC<IStatus> = ({index, statusName, is_active, description, date}) => {
     return (
         <div className={'status_card_container'}>
             <div className={'image_container'}>
@@ -28,8 +29,13 @@ const StatusCard: FC<IStatus> = ({index, statusName, is_active, description}) =>
                     <span style={{fontWeight: 'bold', fontSize: '25px'}}>{statusName}</span>
                     <span style={{fontSize: '18px'}}>{description}</span>
                 </div>
-
+                {date &&
+                    <span className={!is_active ? 'current_date' : 'date_container'}>
+                    {date?.slice(0, 5)}
+                </span>
+                }
             </div>
+
         </div>
     );
 };

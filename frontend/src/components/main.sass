@@ -19,6 +19,7 @@
   justify-content: space-between
   align-items: stretch
 
+
 .information_container
   @include default_container(column, 10px, 0px)
 
@@ -32,6 +33,12 @@
   width: 100%
   @include default_container(row, 0px, 10px)
   justify-content: space-between
+@media (max-width: 500px)
+  .container_grey
+    @include default_container(column-reverse, 10px, 10px)
+    //justify-content: stretch
+  //.date_container, .current_date
+
 
 .image_container
   @include default_container(row, 100px, 0px)
@@ -44,13 +51,8 @@
   border-radius: 16px
 @media (max-width: 700px)
   .container_grey, .image_container
-    height: 150px
-@media (max-width: 500px)
-  .container_grey, .image_container
-    height: 200px
-@media (max-width: 390px)
-  .container_grey, .image_container
-    height: 240px
+    height: auto
+
 .date_container
   border-radius: 8px
   align-self: flex-start
@@ -61,6 +63,9 @@
 .current_date
   background: linear-gradient(to right, #F08319, #E51B2F)
   color: white
+  align-self: flex-start
+  border-radius: 8px
+  padding: 5px 10px
 
 .status_image
   width: 23px
@@ -100,6 +105,10 @@
 @media (max-width: 1360px)
   .current_date, .date_container
     align-self: center
+
+@media (max-width: 500px)
+  .current_date, .date_container
+    align-self: flex-start
 .photos_car_container
   @include default_container(column, 30px, 0px)
   padding: 22px

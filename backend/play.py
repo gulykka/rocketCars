@@ -1,8 +1,12 @@
 import json
+import asyncio
+from dotenv import load_dotenv
 from fast_bitrix24 import Bitrix
-from pprint import pprint
+import os
 
-WEBHOOK_URL = ""
+load_dotenv()
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+
 ENTITY_TYPE_ID = '135'
 
 bx = Bitrix(WEBHOOK_URL)
@@ -21,13 +25,11 @@ def load_stages_from_json(file_path='resp.json'):
 def get_tracking_info(current_stage_id, all_stages):
     # Загружаем описания этапов
     descriptions = load_describtion_from_json()
-
     # Создаем словарь для быстрого доступа к описаниям по имени группы
     description_map = {f"{item['id']}. {item['name']}": item['description']
                        for item in descriptions}
-
     stage_groups = {
-        '1. На оплате/на заводе': ['DT135_12:NEW'],
+        '1. На оплате': ['DT135_12:NEW'],
         '2. На стоянке в Китае': ['DT135_12:PREPARATION'],
         '3. Доставка в РФ': ['DT135_12:UC_G2QLMW'],
         '4. На СВХ': ['DT135_12:CLIENT', 'DT135_12:UC_QFS3CA',
@@ -61,7 +63,6 @@ def get_tracking_info(current_stage_id, all_stages):
             'description': description,
             'stages': []
         }
-
         for stage in sorted(group_stages, key=lambda x: int(x['SORT'])):
             stage_sort = int(stage['SORT'])
             tracking_data[group_name]['stages'].append({
@@ -76,25 +77,33 @@ def get_tracking_info(current_stage_id, all_stages):
             if v['completed'] or v['current']}
 
 
-def get_car_info_by_vin(vin: str, lastname) -> dict:
+async def get_car_info_by_vin(vin: str, lastname: str) -> dict:
     result = {
         'car_data': None,
         'person_data': None,
         'stage_info': None,
-        'tracking_info': None
+        'tracking_info': None,
+        'stage_history': None  # Добавляем поле для истории
     }
 
-    smart_items = bx.get_all(
+    # Добавляем ufCrm8StageHistory в select
+    smart_items = await bx.get_all(
         'crm.item.list',
         {
             'entityTypeId': ENTITY_TYPE_ID,
             'filter': {'ufCrm8Vin': vin},
-            'select': ['*', 'ufCrm8FotoAvto', 'ufCrm8MarkaTc', 'ufCrm8DataVipuska', 'stageId']
+            'select': ['*', 'ufCrm8FotoAvto', 'ufCrm8MarkaTc',
+                       'ufCrm8DataVipuska', 'stageId', 'ufCrm8StageHistory']
         }
     )
 
     if not smart_items:
         return result
+
+    # Добавляем историю стадий в результат
+    stage_history = smart_items[0].get('ufCrm8StageHistory')
+    if stage_history:
+        result['stage_history'] = stage_history
 
     result['car_data'] = {
         "vin": smart_items[0].get('ufCrm8Vin', 'Нет данных'),
@@ -109,6 +118,7 @@ def get_car_info_by_vin(vin: str, lastname) -> dict:
         all_stages = load_stages_from_json()
         current_stage = next((s for s in all_stages if s['STATUS_ID'] == stage_id), None)
 
+
         if current_stage:
             result['stage_info'] = {
                 'id': stage_id,
@@ -120,7 +130,7 @@ def get_car_info_by_vin(vin: str, lastname) -> dict:
 
     # Данные контакта
     client_id = smart_items[0].get('contactId')
-    contacts = bx.get_all(
+    contacts = await bx.get_all(
         'crm.contact.list',
         {
             'filter': {'ID': client_id, 'ACTIVE': 'Y'},
@@ -135,8 +145,3 @@ def get_car_info_by_vin(vin: str, lastname) -> dict:
             }
         break
     return result
-
-
-if __name__ == "__main__":
-    car_data = get_car_info_by_vin("1234567890", "файзулина")
-    pprint(car_data)

@@ -27,7 +27,6 @@ export const fetchGetCar = createAsyncThunk(
             });
 
             const data = await response.json();
-            console.log(data)
             if (data.status_code !== 200) {
                 return thunkAPI.rejectWithValue(data.message);
             }
@@ -81,11 +80,7 @@ const carSlice = createSlice({
     },
 });
 
-// Проверяем наличие имени и VIN в localStorage и вызываем fetchGetCar
-// const { name, VIN } = loadCarDetailsFromLocalStorage();
-// if (name && VIN) {
-//     fetchGetCar({ name, VIN }); // Это не сработает, так как вызов не в контексте Redux
-// }
+
 
 export const { signOut } = carSlice.actions;
 
