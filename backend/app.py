@@ -1,25 +1,26 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from fastapi import FastAPI, HTTPException, Path, status
+from fastapi.responses import JSONResponse
 from fast_bitrix24 import Bitrix
 from pprint import pprint
 from play import *
 from dotenv import load_dotenv
 import json
 import os
-app = Flask(__name__)
-app.secret_key = 'rocketCar'
+from typing import Dict, Any
+
+app = FastAPI()
 load_dotenv()
 WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
-
 ENTITY_TYPE_ID = '135'
 bx = Bitrix(WEBHOOK_URL)
 
 
-def load_stages_from_json(file_path='resp.json'):
+def load_stages_from_json(file_path='resp.json') -> Dict[str, Any]:
     with open(file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 
-def get_tracking_info(current_stage_id, all_stages):
+def get_tracking_info(current_stage_id: str, all_stages: Dict[str, Any]) -> Dict[str, Any]:
     stage_groups = {
         '1. На оплате/на заводе': ['DT135_12:NEW'],
         '2. На стоянке в Китае': ['DT135_12:PREPARATION'],
@@ -65,44 +66,57 @@ def get_tracking_info(current_stage_id, all_stages):
             if v['completed'] or v['current']}
 
 
-@app.route('/api/<lastname>/<vin>', methods=['GET', 'POST'])
-def login(lastname, vin):
-    # if request.method == 'GET':
-    #     data = get_car_info_by_vin(vin)
-    #
-    #     return {'status_code': 405, 'data': data}
+@app.get("/api/{lastname}/{vin}", response_model=Dict[str, Any])
+async def get_car_info(
+        lastname: str = Path(..., description="Фамилия владельца"),
+        vin: str = Path(..., description="VIN номер автомобиля")
+):
+    last_name = lastname.strip()
+    print(last_name, vin)
 
-    if request.method == 'GET':
-        last_name = lastname.strip()
-        print(lastname, vin)
+    try:
+        # Получаем данные по VIN
+        data = await get_car_info_by_vin(vin, lastname)
+        print(data)
 
-        try:
-            # Получаем данные по VIN
-            data = get_car_info_by_vin(vin, lastname)
-            print(data)
-            # Проверяем наличие данных
-            if not data['person_data']:
-                return {'status_code': 404, 'message': 'Автомобиль не найден'}
+        # Проверяем наличие данных
+        if not data['person_data']:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Автомобиль не найден"
+            )
 
-            # Проверяем фамилию
-            db_last_name = data['person_data'].get('LAST_NAME', '').strip()
-            print(db_last_name)
-            if not db_last_name or db_last_name == "Нет данных":
-                return {'status_code': 404, 'message': 'Данные о владельце отсутствуют'}
+        # Проверяем фамилию
+        db_last_name = data['person_data'].get('LAST_NAME', '').strip()
+        print(db_last_name)
 
-            if last_name.lower() != db_last_name.lower():
-                return {'status_code': 403, 'message': 'Фамилия не совпадает'}
+        if not db_last_name or db_last_name == "Нет данных":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Данные о владельце отсутствуют"
+            )
 
-            # Успешная авторизация
-            return {
-                'status_code': 200,
-                'message': 'Успешная авторизация',
-                'data': data
-            }
+        if last_name.lower() != db_last_name.lower():
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Фамилия не совпадает"
+            )
 
-        except ValueError as e:
-            return {'status_code': 404, 'message': str(e)}
+        # Успешный ответ
+        return {
+            "status_code": status.HTTP_200_OK,
+            "message": "Успешная авторизация",
+            "data": data
+        }
+
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e)
+        )
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=5000)

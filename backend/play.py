@@ -1,6 +1,7 @@
 import json
 from fast_bitrix24 import Bitrix
 from pprint import pprint
+import asyncio
 
 WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
 ENTITY_TYPE_ID = '135'
@@ -76,25 +77,33 @@ def get_tracking_info(current_stage_id, all_stages):
             if v['completed'] or v['current']}
 
 
-def get_car_info_by_vin(vin: str, lastname) -> dict:
+async def get_car_info_by_vin(vin: str, lastname: str) -> dict:
     result = {
         'car_data': None,
         'person_data': None,
         'stage_info': None,
-        'tracking_info': None
+        'tracking_info': None,
+        'stage_history': None  # Добавляем поле для истории
     }
 
-    smart_items = bx.get_all(
+    # Добавляем ufCrm8StageHistory в select
+    smart_items = await bx.get_all(
         'crm.item.list',
         {
             'entityTypeId': ENTITY_TYPE_ID,
             'filter': {'ufCrm8Vin': vin},
-            'select': ['*', 'ufCrm8FotoAvto', 'ufCrm8MarkaTc', 'ufCrm8DataVipuska', 'stageId']
+            'select': ['*', 'ufCrm8FotoAvto', 'ufCrm8MarkaTc',
+                       'ufCrm8DataVipuska', 'stageId', 'ufCrm8StageHistory']
         }
     )
 
     if not smart_items:
         return result
+
+    # Добавляем историю стадий в результат
+    stage_history = smart_items[0].get('ufCrm8StageHistory')
+    if stage_history:
+        result['stage_history'] = stage_history
 
     result['car_data'] = {
         "vin": smart_items[0].get('ufCrm8Vin', 'Нет данных'),
@@ -120,7 +129,7 @@ def get_car_info_by_vin(vin: str, lastname) -> dict:
 
     # Данные контакта
     client_id = smart_items[0].get('contactId')
-    contacts = bx.get_all(
+    contacts = await bx.get_all(
         'crm.contact.list',
         {
             'filter': {'ID': client_id, 'ACTIVE': 'Y'},
@@ -137,6 +146,5 @@ def get_car_info_by_vin(vin: str, lastname) -> dict:
     return result
 
 
-if __name__ == "__main__":
-    car_data = get_car_info_by_vin("1234567890", "файзулина")
-    pprint(car_data)
+car_data = asyncio.run(get_car_info_by_vin("1234567890", "файзулина"))
+pprint(car_data)
