@@ -1,10 +1,14 @@
 import json
-from fast_bitrix24 import Bitrix
-from pprint import pprint
 import asyncio
+from dotenv import load_dotenv
+from fast_bitrix24 import Bitrix
+import os
 
-WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
+load_dotenv()
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+
 ENTITY_TYPE_ID = '135'
+bx = Bitrix(WEBHOOK_URL)
 
 bx = Bitrix(WEBHOOK_URL)
 
@@ -22,13 +26,11 @@ def load_stages_from_json(file_path='resp.json'):
 def get_tracking_info(current_stage_id, all_stages):
     # Загружаем описания этапов
     descriptions = load_describtion_from_json()
-
     # Создаем словарь для быстрого доступа к описаниям по имени группы
     description_map = {f"{item['id']}. {item['name']}": item['description']
                        for item in descriptions}
-
     stage_groups = {
-        '1. На оплате/на заводе': ['DT135_12:NEW'],
+        '1. На оплате': ['DT135_12:NEW'],
         '2. На стоянке в Китае': ['DT135_12:PREPARATION'],
         '3. Доставка в РФ': ['DT135_12:UC_G2QLMW'],
         '4. На СВХ': ['DT135_12:CLIENT', 'DT135_12:UC_QFS3CA',
@@ -62,7 +64,6 @@ def get_tracking_info(current_stage_id, all_stages):
             'description': description,
             'stages': []
         }
-
         for stage in sorted(group_stages, key=lambda x: int(x['SORT'])):
             stage_sort = int(stage['SORT'])
             tracking_data[group_name]['stages'].append({
@@ -144,7 +145,3 @@ async def get_car_info_by_vin(vin: str, lastname: str) -> dict:
             }
         break
     return result
-
-
-car_data = asyncio.run(get_car_info_by_vin("1234567890", "файзулина"))
-pprint(car_data)

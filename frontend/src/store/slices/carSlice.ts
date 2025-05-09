@@ -80,11 +80,7 @@ const carSlice = createSlice({
     },
 });
 
-// Проверяем наличие имени и VIN в localStorage и вызываем fetchGetCar
-// const { name, VIN } = loadCarDetailsFromLocalStorage();
-// if (name && VIN) {
-//     fetchGetCar({ name, VIN }); // Это не сработает, так как вызов не в контексте Redux
-// }
+
 
 export const { signOut } = carSlice.actions;
 

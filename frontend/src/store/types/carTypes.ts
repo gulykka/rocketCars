@@ -35,6 +35,7 @@ export interface TrackingStage {
 export interface TrackingGroup {
   completed: boolean;
   current: boolean;
+  description: string;
   stages: TrackingStage[];
 }
 
@@ -48,6 +49,7 @@ export interface CarResponse {
   stage_info: StageInfo;
   tracking_info: TrackingInfo;
   message: string;
+  stage_history: string[]
   status_code: number;
 }
 
@@ -56,3 +58,7 @@ export interface CarState {
   loading: boolean;
   error: string | null;
 }
+
+// export interface StageHistory {
+//   stage : string
+// }

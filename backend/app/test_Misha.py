@@ -2,7 +2,7 @@ from fast_bitrix24 import Bitrix
 import json
 
 # Настройки подключения
-WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"  # Замените на ваш вебхук
+WEBHOOK_URL = ""  # Замените на ваш вебхук
 FIELD_CODE = 'ufCrm8Vin'  # Код поля с ВИН авто
 FIELD_VALUE = '1234567890'  # Нужный VIN
 ENTITY_TYPE_ID = '135'  # ID смарт-процесса

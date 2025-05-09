@@ -2,7 +2,7 @@ from fast_bitrix24 import Bitrix
 import json
 
 # Настройки подключения
-WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
+WEBHOOK_URL = ""
 ENTITY_TYPE_ID = '135'  # ID смарт-процесса
 
 # Инициализация клиента Bitrix24
