@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Path, status
-from .play import *
+from play import *
 import json
 from typing import Dict, Any
 
@@ -102,3 +102,6 @@ async def get_car_info(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
         )
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=True)
