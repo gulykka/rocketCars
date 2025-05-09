@@ -1,18 +1,9 @@
 from fastapi import FastAPI, HTTPException, Path, status
-from fastapi.responses import JSONResponse
-from fast_bitrix24 import Bitrix
-from pprint import pprint
-from play import *
-from dotenv import load_dotenv
+from .play import *
 import json
-import os
 from typing import Dict, Any
 
 app = FastAPI()
-load_dotenv()
-WEBHOOK_URL = "https://rocketcars.bitrix24.ru/rest/1978/a5wanv92ux3qsw3w/"
-ENTITY_TYPE_ID = '135'
-bx = Bitrix(WEBHOOK_URL)
 
 
 def load_stages_from_json(file_path='resp.json') -> Dict[str, Any]:
@@ -72,12 +63,10 @@ async def get_car_info(
         vin: str = Path(..., description="VIN номер автомобиля")
 ):
     last_name = lastname.strip()
-    print(last_name, vin)
 
     try:
         # Получаем данные по VIN
         data = await get_car_info_by_vin(vin, lastname)
-        print(data)
 
         # Проверяем наличие данных
         if not data['person_data']:
@@ -88,7 +77,6 @@ async def get_car_info(
 
         # Проверяем фамилию
         db_last_name = data['person_data'].get('LAST_NAME', '').strip()
-        print(db_last_name)
 
         if not db_last_name or db_last_name == "Нет данных":
             raise HTTPException(
@@ -114,9 +102,3 @@ async def get_car_info(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
         )
-
-
-if __name__ == '__main__':
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=5000)

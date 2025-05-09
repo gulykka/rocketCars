@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - backend/.env
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app  # Только для разработки (чтобы изменения применялись без пересборки)
+    networks:
+      - rocket-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - rocket-network
+
+networks:
+  rocket-network:
+    driver: bridge
