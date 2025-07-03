@@ -67,7 +67,7 @@ async def get_car_info(
     try:
         # Получаем данные по VIN
         data = await get_car_info_by_vin(vin, lastname)
-
+        print(data)
         # Проверяем наличие данных
         if not data['person_data']:
             raise HTTPException(
